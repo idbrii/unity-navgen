@@ -75,7 +75,10 @@ namespace idbrii.navgen
         {
             foreach (var entry in collection.m_Volumes)
             {
-                GameObject.DestroyImmediate(entry.gameObject);
+                if (entry != null)
+                {
+                    GameObject.DestroyImmediate(entry.gameObject);
+                }
             }
             collection.m_Volumes.Clear();
         }
@@ -95,13 +98,30 @@ namespace idbrii.navgen
             var threshold_sqr = 1.5f * 1.5f;
             foreach (Collider c in colliders)
             {
+                if (c.GetComponentInChildren<NavMeshModifierVolume>() != null)
+                {
+                    // Skip so we can move them out of m_Volumes to make them persistent.
+                    Debug.Log($"[NavMesh] Skipping NonWalkable generation on {c.name} because it already has a NavMeshModifierVolume child.", c);
+                    continue;
+                }
+                // Get unrotated bounds. Hopefully these are tighter.
+                var t = c.transform;
+                var rot = t.rotation;
+                var pos = t.position;
+                t.position = Vector3.zero;
+                t.rotation = Quaternion.identity;
+                Physics.SyncTransforms();
                 var b = c.bounds;
+                t.rotation = rot;
+                t.position = pos;
+
                 if (b.size.sqrMagnitude > threshold_sqr)
                 {
-                    var t = c.transform;
                     var obj = new GameObject("Block NavMesh - "+ t.name);
                     obj.transform.SetParent(t);
-                    obj.transform.SetPositionAndRotation(b.center, t.rotation);
+                    obj.transform.SetPositionAndRotation(pos, rot);
+                    obj.transform.localPosition = Vector3.zero;
+                    obj.transform.localRotation = Quaternion.identity;
 
                     var vol = obj.AddComponent<NavMeshModifierVolume>();
                     vol.area = (int)NavMeshAreaIndex.NotWalkable;
@@ -110,8 +130,7 @@ namespace idbrii.navgen
                     var size = b.size;
                     size -= Vector3.one * offset;
                     vol.size = size;
-                    vol.center = Vector3.down * offset;
-                    //~ vol.center = t.InverseTransformPoint(b.center) + Vector3.down * offset;
+                    vol.center = b.center + Vector3.down * offset;
                     Undo.RegisterCreatedObjectUndo(obj, "Create No Walk Volumes");
                     collection.m_Volumes.Add(vol);
                 }
