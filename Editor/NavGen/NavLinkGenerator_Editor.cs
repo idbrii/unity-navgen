@@ -124,18 +124,18 @@ namespace idbrii.navgen
                 .ToArray();
         }
 
-        const string k_RootName = "Generated NavLinks";
-        static Transform GetNavLinkRoot()
+        const string k_LinkRootName = "Generated NavLinks";
+        static Transform GetNamedRoot(string root_name)
         {
             var root_objects = EditorSceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var obj in root_objects)
             {
-                if (obj.name == k_RootName)
+                if (obj.name == root_name)
                 {
                     return obj.transform;
                 }
             }
-            return new GameObject(k_RootName).transform;
+            return new GameObject(root_name).transform;
         }
 
         class NavEdge
@@ -256,7 +256,7 @@ namespace idbrii.navgen
 
             RemoveLinks();
             m_CreatedLinks.Clear();
-            var parent = GetNavLinkRoot();
+            var parent = GetNamedRoot(k_LinkRootName);
 
             foreach (var edge in edge_list)
             {
@@ -421,7 +421,7 @@ namespace idbrii.navgen
 
         void RemoveLinks()
         {
-            var nav_links = GetNavLinkRoot().GetComponentsInChildren<NavMeshLink>();
+            var nav_links = GetNamedRoot(k_LinkRootName).GetComponentsInChildren<NavMeshLink>();
             foreach (var link in nav_links)
             {
                 GameObject.DestroyImmediate(link.gameObject);
