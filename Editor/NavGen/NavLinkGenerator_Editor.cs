@@ -59,7 +59,7 @@ namespace idbrii.navgen
             {
                 if (GUILayout.Button("Clear All"))
                 {
-                    NavMeshAssetManager.instance.ClearSurfaces(GetAllNavMeshSurfacesInActiveScene());
+                    NavMeshAssetManager.instance.ClearSurfaces(GetAllInActiveScene<NavMeshSurface>());
                     RemoveLinks();
                     SceneView.RepaintAll();
                     Debug.Log($"Removed NavMesh and NavMeshLinks from all NavMeshSurfaces.");
@@ -67,7 +67,7 @@ namespace idbrii.navgen
 
                 if (GUILayout.Button("Bake NavMesh"))
                 {
-                    var surfaces = GetAllNavMeshSurfacesInActiveScene();
+                    var surfaces = GetAllInActiveScene<NavMeshSurface>();
                     NavMeshAssetManager.instance.StartBakingSurfaces(surfaces);
                     Debug.Log($"Baked NavMesh for {surfaces.Length} NavMeshSurfaces.");
                 }
@@ -80,7 +80,7 @@ namespace idbrii.navgen
 
                 if (GUILayout.Button("Select NavMesh"))
                 {
-                    var surfaces = GetAllNavMeshSurfacesInActiveScene();
+                    var surfaces = GetAllInActiveScene<NavMeshSurface>();
                     Selection.objects = surfaces;
                 }
             }
@@ -115,10 +115,10 @@ namespace idbrii.navgen
             }
         }
 
-        Object[] GetAllNavMeshSurfacesInActiveScene()
+        Object[] GetAllInActiveScene<T>() where T : Component
         {
             var scene = EditorSceneManager.GetActiveScene();
-            return Resources.FindObjectsOfTypeAll<NavMeshSurface>()
+            return Resources.FindObjectsOfTypeAll<T>()
                 .Where(surf => surf.gameObject.scene == scene)
                 .Select(surf => surf as Object)
                 .ToArray();
