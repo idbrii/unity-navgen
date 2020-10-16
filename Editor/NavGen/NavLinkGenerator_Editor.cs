@@ -25,6 +25,7 @@ namespace idbrii.navgen
         }
         [SerializeField] Draw m_Draw;
         [SerializeField] bool m_AttachDebugToLinks;
+        [SerializeField] bool m_ShowCreatedLinks;
 
         [SerializeField] List<NavMeshLink> m_CreatedLinks = new List<NavMeshLink>();
 
@@ -80,34 +81,36 @@ namespace idbrii.navgen
 
                 if (GUILayout.Button("Select NavMesh"))
                 {
-                    var surfaces = GetAllInActiveScene<NavMeshSurface>();
-                    Selection.objects = surfaces;
+                    Selection.objects = NavEdUtil.GetAllInActiveScene<NavMeshSurface>();
                 }
             }
 
             EditorGUILayout.Space();
-            GUILayout.Label("Created Links");
-            foreach (var entry in m_CreatedLinks)
+            m_ShowCreatedLinks = EditorGUILayout.Foldout(m_ShowCreatedLinks, "Created Links", toggleOnLabelClick: true);
+            if (m_ShowCreatedLinks)
             {
-                using (new GUILayout.HorizontalScope())
+                foreach (var entry in m_CreatedLinks)
                 {
-                    EditorGUILayout.ObjectField(entry, typeof(NavMeshLink), allowSceneObjects: true);
-                    using (new EditorGUI.DisabledScope(!m_AttachDebugToLinks))
+                    using (new GUILayout.HorizontalScope())
                     {
-                        if (GUILayout.Button("Draw"))
+                        EditorGUILayout.ObjectField(entry, typeof(NavMeshLink), allowSceneObjects: true);
+                        using (new EditorGUI.DisabledScope(!m_AttachDebugToLinks))
                         {
-                            entry.GetComponent<NavLinkCreationReason>().Draw();
-
-                            if (SceneView.lastActiveSceneView != null)
+                            if (GUILayout.Button("Draw"))
                             {
-                                // Prevent losing focus (we'd lose our state).
-                                ActiveEditorTracker.sharedTracker.isLocked = true;
+                                entry.GetComponent<NavLinkCreationReason>().Draw();
 
-                                var activeGameObject = Selection.activeGameObject;
-                                activeGameObject = entry.gameObject;
-                                EditorGUIUtility.PingObject(activeGameObject);
-                                SceneView.lastActiveSceneView.FrameSelected();
-                                Selection.activeGameObject = activeGameObject;
+                                if (SceneView.lastActiveSceneView != null)
+                                {
+                                    // Prevent losing focus (we'd lose our state).
+                                    ActiveEditorTracker.sharedTracker.isLocked = true;
+
+                                    var activeGameObject = Selection.activeGameObject;
+                                    activeGameObject = entry.gameObject;
+                                    EditorGUIUtility.PingObject(activeGameObject);
+                                    SceneView.lastActiveSceneView.FrameSelected();
+                                    Selection.activeGameObject = activeGameObject;
+                                }
                             }
                         }
                     }
