@@ -37,7 +37,7 @@ namespace idbrii.navgen
 
             m_Draw = (Draw)EditorGUILayout.EnumPopup("Debug Draw", m_Draw);
             m_AttachDebugToLinks = EditorGUILayout.Toggle("Attach Debug To Links", m_AttachDebugToLinks);
-            
+
             switch (m_Draw)
             {
                 case Draw.Nothing:
@@ -60,10 +60,16 @@ namespace idbrii.navgen
             {
                 if (GUILayout.Button("Clear All"))
                 {
+                    NavNonWalkableCollection_Editor.ClearNonWalkableVolumes();
                     NavMeshAssetManager.instance.ClearSurfaces(NavEdUtil.GetAllInActiveScene<NavMeshSurface>());
                     RemoveLinks();
                     SceneView.RepaintAll();
                     Debug.Log($"Removed NavMesh and NavMeshLinks from all NavMeshSurfaces.");
+                }
+
+                if (GUILayout.Button("Create Interior Volumes"))
+                {
+                    NavNonWalkableCollection_Editor.CreateNonWalkableVolumes();
                 }
 
                 if (GUILayout.Button("Bake NavMesh"))

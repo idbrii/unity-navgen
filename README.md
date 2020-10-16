@@ -12,6 +12,13 @@ using it (Assets > Create > AI > NavLinkGenerator). The asset contains
 settings and buttons for generating links.
 
 
+# NavNonWalkableCollection
+
+The "Create Interior Volumes" button in NavLinkGenerator creates a
+NavNonWalkableCollection which tracks the volumes so they can be rebuilt.
+Remove a volume from this component's list to prevent it from being modified.
+
+
 # NavMeshAreas
 
 You can assign enum values from `UnityEngine.AI.NavMeshAreas` to NavMeshAgent's
