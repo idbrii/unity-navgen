@@ -59,7 +59,7 @@ namespace idbrii.navgen
             {
                 if (GUILayout.Button("Clear All"))
                 {
-                    NavMeshAssetManager.instance.ClearSurfaces(GetAllInActiveScene<NavMeshSurface>());
+                    NavMeshAssetManager.instance.ClearSurfaces(NavEdUtil.GetAllInActiveScene<NavMeshSurface>());
                     RemoveLinks();
                     SceneView.RepaintAll();
                     Debug.Log($"Removed NavMesh and NavMeshLinks from all NavMeshSurfaces.");
@@ -67,7 +67,7 @@ namespace idbrii.navgen
 
                 if (GUILayout.Button("Bake NavMesh"))
                 {
-                    var surfaces = GetAllInActiveScene<NavMeshSurface>();
+                    var surfaces = NavEdUtil.GetAllInActiveScene<NavMeshSurface>();
                     NavMeshAssetManager.instance.StartBakingSurfaces(surfaces);
                     Debug.Log($"Baked NavMesh for {surfaces.Length} NavMeshSurfaces.");
                 }
@@ -115,28 +115,7 @@ namespace idbrii.navgen
             }
         }
 
-        Object[] GetAllInActiveScene<T>() where T : Component
-        {
-            var scene = EditorSceneManager.GetActiveScene();
-            return Resources.FindObjectsOfTypeAll<T>()
-                .Where(surf => surf.gameObject.scene == scene)
-                .Select(surf => surf as Object)
-                .ToArray();
-        }
-
         const string k_LinkRootName = "Generated NavLinks";
-        static Transform GetNamedRoot(string root_name)
-        {
-            var root_objects = EditorSceneManager.GetActiveScene().GetRootGameObjects();
-            foreach (var obj in root_objects)
-            {
-                if (obj.name == root_name)
-                {
-                    return obj.transform;
-                }
-            }
-            return new GameObject(root_name).transform;
-        }
 
         class NavEdge
         {
@@ -256,7 +235,7 @@ namespace idbrii.navgen
 
             RemoveLinks();
             m_CreatedLinks.Clear();
-            var parent = GetNamedRoot(k_LinkRootName);
+            var parent = NavEdUtil.GetNamedRoot(k_LinkRootName);
 
             foreach (var edge in edge_list)
             {
@@ -421,7 +400,7 @@ namespace idbrii.navgen
 
         void RemoveLinks()
         {
-            var nav_links = GetNamedRoot(k_LinkRootName).GetComponentsInChildren<NavMeshLink>();
+            var nav_links = NavEdUtil.GetNamedRoot(k_LinkRootName).GetComponentsInChildren<NavMeshLink>();
             foreach (var link in nav_links)
             {
                 GameObject.DestroyImmediate(link.gameObject);
