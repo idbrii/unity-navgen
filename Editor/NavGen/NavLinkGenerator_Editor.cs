@@ -197,7 +197,7 @@ namespace idbrii.navgen
             return Vector3.Dot( d, d );
         }
 
-        [UnityEditor.MenuItem("Navigation/Test/DistanceSqToPointOnLine")]
+        [UnityEditor.MenuItem("Tools/Test/DistanceSqToPointOnLine")]
         static void Test_DistanceSqToPointOnLine()
         {
             var a = new Vector3(0f, 0f, 0f);
@@ -359,7 +359,7 @@ namespace idbrii.navgen
             return edges;
         }
 
-        [UnityEditor.MenuItem("Navigation/Test/NavEdge Compare")]
+        [UnityEditor.MenuItem("Tools/Test/NavEdge Compare")]
         static void Test_NavEdge_Compare()
         {
             var cmp = new NavEdgeEqualityComparer();
