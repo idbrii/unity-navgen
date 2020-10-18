@@ -19,10 +19,10 @@ namespace idbrii.navgen
     public class NavLinkGenerator_Editor : Editor
     {
         const float k_DrawDuration = 1f;
+        const string k_LinkRootName = "Generated NavLinks";
 
         [SerializeField] bool m_AttachDebugToLinks;
         [SerializeField] bool m_ShowCreatedLinks;
-
         [SerializeField] List<NavMeshLink> m_CreatedLinks = new List<NavMeshLink>();
 
         public override void OnInspectorGUI()
@@ -113,8 +113,6 @@ namespace idbrii.navgen
                 Debug.DrawLine(mid, mid + edge.m_Normal, Color.blue, duration);
             }
         }
-
-        const string k_LinkRootName = "Generated NavLinks";
 
         class NavEdge
         {
@@ -220,6 +218,7 @@ namespace idbrii.navgen
 
             Debug.Log("Test complete: DistanceSqToPointOnLine");
         }
+
 
         void GenerateLinks(NavLinkGenerator gen)
         {
