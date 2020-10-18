@@ -3,6 +3,11 @@ using System.Collections;
 using System.Linq;
 using UnityEngine.AI;
 using UnityEngine;
+using idbrii.navgen;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [DefaultExecutionOrder(-200)]
 public class DungeonManager : MonoBehaviour
@@ -59,6 +64,12 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
+    [NaughtyAttributes.InfoBox("Click the Create button to make a dungeon to your liking.\n"
+    +"Click the Select button to open the NavLinkGenerator to generate the navmesh and navlinks and select the navmesh to see the result (in Scene view).\n"
+    +"Then click Play and click around to see how the agent handles the generated links.", NaughtyAttributes.EInfoBoxType.Normal)]
+    public float m_HeightDelta = 1.5f;
+
+#if UNITY_EDITOR
     [NaughtyAttributes.Button]
     void CreateDisconnectedDungeon()
     {
@@ -69,21 +80,52 @@ public class DungeonManager : MonoBehaviour
         m_Instances.Clear();
 
         CreateDungeon(Mathf.RoundToInt(Random.value * 10000000f));
-        var root = GameObject.Find("Dungeon Root") ?? new GameObject("Dungeon Root");
+        var root = GameObject.Find("Dungeon Instance");
+        if (root == null)
+        {
+            root = new GameObject("Dungeon Instance");
+            var surf = root.AddComponent<NavMeshSurface>();
+            surf.collectObjects = CollectObjects.Children;
+            surf.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
+            Undo.RegisterCreatedObjectUndo(root, "CreateDisconnectedDungeon");
+        }
         var parent = root.transform;
         foreach (var obj in m_Instances)
         {
             obj.transform.SetParent(parent);
             var position = obj.transform.position;
-            position.y += Random.Range(-5f, 5f);
+            position.y += Random.Range(-m_HeightDelta, m_HeightDelta);
             obj.transform.position = position;
-            UnityEditor.Undo.RegisterCreatedObjectUndo(obj, "CreateDisconnectedDungeon");
+            Undo.RegisterCreatedObjectUndo(obj, "CreateDisconnectedDungeon");
+        }
+        foreach (var entry in parent.GetComponentsInChildren<NavMeshPrefabInstance>())
+        {
+            Component.DestroyImmediate(entry);
         }
         foreach (var entry in parent.GetComponentsInChildren<NavMeshLink>())
         {
             Component.DestroyImmediate(entry);
         }
-        UnityEditor.Undo.RegisterCreatedObjectUndo(parent.gameObject, "CreateDisconnectedDungeon");
+        Undo.RegisterCreatedObjectUndo(parent.gameObject, "CreateDisconnectedDungeon");
     }
+
+    [NaughtyAttributes.Button]
+    void SelectNavLinkGenerator()
+    {
+        var gen = AssetDatabase.FindAssets("t:NavLinkGenerator")
+                .Select(guid => AssetDatabase.LoadAssetAtPath<NavLinkGenerator>(AssetDatabase.GUIDToAssetPath(guid)))
+                .FirstOrDefault();
+        if (gen == null)
+        {
+            gen = ScriptableObject.CreateInstance<NavLinkGenerator>();
+            AssetDatabase.CreateAsset(gen, "Assets/NavLinkGenerator.asset");
+            AssetDatabase.SaveAssets();
+        }
+        if (gen != null)
+        {
+            Selection.activeObject = gen;
+        }
+    }
+#endif
 
 }
