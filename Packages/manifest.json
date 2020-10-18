@@ -2,6 +2,7 @@
   "dependencies": {
     "com.github.idbrii.unity-vimeditor": "https://github.com/idbrii/unity-vimeditor.git#dev",
     "com.dbrizov.naughtyattributes": "https://github.com/dbrizov/NaughtyAttributes.git#upm",
+    "com.github.idbrii.unity-navgen": "https://github.com/idbrii/unity-navgen.git#main",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.ide.rider": "1.1.4",
     "com.unity.ide.vscode": "1.2.1",

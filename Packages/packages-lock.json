@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "c5140c7dc38427f93a63d8bd6604f90134943fe7"
     },
+    "com.github.idbrii.unity-navgen": {
+      "version": "https://github.com/idbrii/unity-navgen.git#main",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "16d4ba6c16228d7f7b9fe7a91ff8b8a837ba842c"
+    },
     "com.github.idbrii.unity-vimeditor": {
       "version": "https://github.com/idbrii/unity-vimeditor.git#dev",
       "depth": 0,
