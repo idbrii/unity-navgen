@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿//~ #define NAVGEN_INCLUDE_TESTS
+
+using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using UnityEditor.AI;
@@ -18,12 +20,6 @@ namespace idbrii.navgen
     {
         const float k_DrawDuration = 1f;
 
-        public enum Draw
-        {
-            Nothing,
-            PreviewEdges,
-        }
-        [SerializeField] Draw m_Draw;
         [SerializeField] bool m_AttachDebugToLinks;
         [SerializeField] bool m_ShowCreatedLinks;
 
@@ -35,26 +31,7 @@ namespace idbrii.navgen
 
             var gen = target as NavLinkGenerator;
 
-            m_Draw = (Draw)EditorGUILayout.EnumPopup("Debug Draw", m_Draw);
             m_AttachDebugToLinks = EditorGUILayout.Toggle("Attach Debug To Links", m_AttachDebugToLinks);
-
-            switch (m_Draw)
-            {
-                case Draw.Nothing:
-                    break;
-
-                case Draw.PreviewEdges:
-                    var tri = NavMesh.CalculateTriangulation();
-                    var edge_list = CreateEdges(tri);
-                    foreach (var edge in edge_list)
-                    {
-                        edge.ComputeDerivedData();
-                        Debug.DrawLine(edge.m_StartPos, edge.m_EndPos, Color.magenta);
-                        var mid = edge.GetMidpoint();
-                        Debug.DrawLine(mid, mid + edge.m_Normal, Color.blue);
-                    }
-                    break;
-            }
 
             using (new GUILayout.HorizontalScope())
             {
@@ -121,6 +98,19 @@ namespace idbrii.navgen
                         }
                     }
                 }
+            }
+        }
+
+        void DrawEdges(float duration)
+        {
+            var tri = NavMesh.CalculateTriangulation();
+            var edge_list = CreateEdges(tri);
+            foreach (var edge in edge_list)
+            {
+                edge.ComputeDerivedData();
+                Debug.DrawLine(edge.m_StartPos, edge.m_EndPos, Color.magenta, duration);
+                var mid = edge.GetMidpoint();
+                Debug.DrawLine(mid, mid + edge.m_Normal, Color.blue, duration);
             }
         }
 
@@ -197,7 +187,9 @@ namespace idbrii.navgen
             return Vector3.Dot( d, d );
         }
 
+#if NAVGEN_INCLUDE_TESTS
         [UnityEditor.MenuItem("Tools/Test/DistanceSqToPointOnLine")]
+#endif
         static void Test_DistanceSqToPointOnLine()
         {
             var a = new Vector3(0f, 0f, 0f);
@@ -359,7 +351,9 @@ namespace idbrii.navgen
             return edges;
         }
 
+#if NAVGEN_INCLUDE_TESTS
         [UnityEditor.MenuItem("Tools/Test/NavEdge Compare")]
+#endif
         static void Test_NavEdge_Compare()
         {
             var cmp = new NavEdgeEqualityComparer();
