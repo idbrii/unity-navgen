@@ -8,14 +8,14 @@
       "hash": "c5140c7dc38427f93a63d8bd6604f90134943fe7"
     },
     "com.github.idbrii.unity-navgen": {
-      "version": "https://github.com/idbrii/unity-navgen.git#main",
+      "version": "https://github.com/idbrii/unity-navgen.git#latest-release",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "16d4ba6c16228d7f7b9fe7a91ff8b8a837ba842c"
+      "hash": "ac8e7e4aaea273ab6fb35f152e1b8f6cf3a50465"
     },
     "com.github.idbrii.unity-vimeditor": {
-      "version": "https://github.com/idbrii/unity-vimeditor.git#dev",
+      "version": "https://github.com/idbrii/unity-vimeditor.git#latest-release",
       "depth": 0,
       "source": "git",
       "dependencies": {},
