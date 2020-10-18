@@ -1,11 +1,21 @@
 # unity-navgen
-Tools for working with Unity's NavMeshComponents and generating navmesh: link generation, mesh cleanup, etc
+Tools for working with [Unity's
+NavMeshComponents](https://github.com/Unity-Technologies/NavMeshComponents) and
+generating navmesh: link generation, mesh cleanup, etc
+
+
+Default NavMesh Generation                                                                                                                         | Using NavLinkGenerator's Bake Links and Interior Volumes
+:-------------------------:                                                                                                                        | :-------------------------:
+![Default navmesh generation](https://user-images.githubusercontent.com/43559/96373807-b0a40980-1123-11eb-8bec-a5921c9819f7.png)                   | ![Hiding cube platform to show navmesh island inside](https://user-images.githubusercontent.com/43559/96373809-b13ca000-1123-11eb-9431-e30834db4af1.png)
+![After running Bake Links in NavLinkGenerator](https://user-images.githubusercontent.com/43559/96373808-b13ca000-1123-11eb-9e11-d1b2cb41cfba.png) | ![Hiding cube platform to show there's no navmesh island inside](https://user-images.githubusercontent.com/43559/96373810-b1d53680-1123-11eb-94e3-2c61b481973b.png)
 
 ## NavLinkGenerator
 
 NavLinkGenerator is an asset for generating
 [NavMeshLinks](https://docs.unity3d.com/Manual/class-NavMeshLink.html) across
 gaps in your navmesh. It also serves as the central hub for navgen.
+
+![NavLinkGenerator](https://user-images.githubusercontent.com/43559/96361844-081f8680-10de-11eb-86ea-23157153d05e.png)
 
 NavLinkGenerator is a ScriptableObject -- so you need to create one to start
 using it (Assets > Create > AI > NavLinkGenerator). The asset contains
@@ -27,6 +37,26 @@ NavMeshSurface, NavMeshLink, NavMeshModifierVolume, etc. These enums are
 automatically updated from the areas defined in Navigation (Window > AI >
 Navigation).
 
+[NavMeshAreas generates two enums
+](https://github.com/idbrii/unity-navgen/blob/16d4ba6c16228d7f7b9fe7a91ff8b8a837ba842c/Runtime/NavMeshAreas/NavMeshAreas.cs#L19-L32)
+that look something like this:
+
+```cs
+// NavMeshAgent uses AreaMask.
+[Flags]
+public enum NavMeshAreas
+{
+    None = 0,
+    Walkable = 1, NotWalkable = 2, Jump = 4, Climb = 8, Blocked = 16, Hole = 32, Edge = 64, Fall = 128, New1 = 256, Stuff = 512, 
+    All = ~0,
+}
+
+// NavMeshSurface, NavMeshLink, NavMeshModifierVolume, etc. use indexes.
+public enum NavMeshAreaIndex
+{
+    Walkable = 0, NotWalkable = 1, Jump = 2, Climb = 3, Blocked = 4, Hole = 5, Edge = 6, Fall = 7, New1 = 8, Stuff = 9, 
+}
+```
 
 # Alternatives
 
