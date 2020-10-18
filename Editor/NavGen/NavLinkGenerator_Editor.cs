@@ -175,6 +175,49 @@ namespace idbrii.navgen
             }
         }
 
+#if NAVGEN_INCLUDE_TESTS
+        [UnityEditor.MenuItem("Tools/Test/NavEdge Compare")]
+#endif
+        static void Test_NavEdge_Compare()
+        {
+            var cmp = new NavEdgeEqualityComparer();
+            var edge           = new NavEdge(new Vector3(10f, 20f, 30f), new Vector3(20f, 20f, 20f));
+            var edge_identical = new NavEdge(edge.m_StartPos, edge.m_EndPos);
+            var edge_reverse   = new NavEdge(edge.m_EndPos, edge.m_StartPos);
+
+            Debug.Assert(cmp.Equals(edge, edge), "compare to self.");
+            Debug.Assert(cmp.Equals(edge, edge_identical), "compare to identical.");
+            Debug.Assert(cmp.Equals(edge, edge_reverse), "compare to mirrored.");
+
+            var edge_list = new HashSet<NavEdge>(cmp);
+            edge_list.Add(edge);
+            Debug.Assert(edge_list.Add(edge) == false, "Add failed to find duplicate");
+            Debug.Assert(edge_list.Remove(edge) == true, "Remove failed to find edge");
+            Debug.Assert(edge_list.Count == 0, "Must be empty now.");
+
+            AddIfUniqueAndRemoveIfNot(edge_list, edge);
+            Debug.Assert(edge_list.Count == 1, "AddIfUniqueAndRemoveIfNot should add edge to empty set.");
+            AddIfUniqueAndRemoveIfNot(edge_list, edge_identical);
+            Debug.Assert(edge_list.Count == 0, "AddIfUniqueAndRemoveIfNot should remove identical edge.");
+
+            AddIfUniqueAndRemoveIfNot(edge_list, edge);
+            Debug.Assert(edge_list.Count == 1, "AddIfUniqueAndRemoveIfNot failed to add edge");
+            AddIfUniqueAndRemoveIfNot(edge_list, edge_reverse);
+            Debug.Assert(edge_list.Count == 0, "AddIfUniqueAndRemoveIfNot failed to find edge");
+
+            Debug.Log("Test complete: NavEdge");
+        }
+
+        // Don't want inner edges (which match another existing edge).
+        static void AddIfUniqueAndRemoveIfNot(HashSet<NavEdge> set, NavEdge edge)
+        {
+            bool had_edge = set.Remove(edge);
+            if (!had_edge)
+            {
+                set.Add(edge);
+            }
+        }
+
         static float DistanceSqToPointOnLine(Vector3 a, Vector3 b, Vector3 p)
         {
             Vector3 ab = b - a;
@@ -318,6 +361,12 @@ namespace idbrii.navgen
 
                         if (m_AttachDebugToLinks)
                         {
+                            // Attach a component that has the information we
+                            // used to decide how to create this navlink. Much
+                            // easier to go back and inspect it like this than
+                            // to try to examine the output as you generate
+                            // navlinks. Mostly useful for debugging
+                            // NavLinkGenerator.
                             var reason = link.gameObject.AddComponent<NavLinkCreationReason>();
                             reason.gen = gen;
                             reason.fwd = fwd;
@@ -348,49 +397,6 @@ namespace idbrii.navgen
                 AddIfUniqueAndRemoveIfNot(edges, TriangleToEdge(tri, i + 2, i));
             }
             return edges;
-        }
-
-#if NAVGEN_INCLUDE_TESTS
-        [UnityEditor.MenuItem("Tools/Test/NavEdge Compare")]
-#endif
-        static void Test_NavEdge_Compare()
-        {
-            var cmp = new NavEdgeEqualityComparer();
-            var edge           = new NavEdge(new Vector3(10f, 20f, 30f), new Vector3(20f, 20f, 20f));
-            var edge_identical = new NavEdge(edge.m_StartPos, edge.m_EndPos);
-            var edge_reverse   = new NavEdge(edge.m_EndPos, edge.m_StartPos);
-
-            Debug.Assert(cmp.Equals(edge, edge), "compare to self.");
-            Debug.Assert(cmp.Equals(edge, edge_identical), "compare to identical.");
-            Debug.Assert(cmp.Equals(edge, edge_reverse), "compare to mirrored.");
-
-            var edge_list = new HashSet<NavEdge>(cmp);
-            edge_list.Add(edge);
-            Debug.Assert(edge_list.Add(edge) == false, "Add failed to find duplicate");
-            Debug.Assert(edge_list.Remove(edge) == true, "Remove failed to find edge");
-            Debug.Assert(edge_list.Count == 0, "Must be empty now.");
-
-            AddIfUniqueAndRemoveIfNot(edge_list, edge);
-            Debug.Assert(edge_list.Count == 1, "AddIfUniqueAndRemoveIfNot should add edge to empty set.");
-            AddIfUniqueAndRemoveIfNot(edge_list, edge_identical);
-            Debug.Assert(edge_list.Count == 0, "AddIfUniqueAndRemoveIfNot should remove identical edge.");
-
-            AddIfUniqueAndRemoveIfNot(edge_list, edge);
-            Debug.Assert(edge_list.Count == 1, "AddIfUniqueAndRemoveIfNot failed to add edge");
-            AddIfUniqueAndRemoveIfNot(edge_list, edge_reverse);
-            Debug.Assert(edge_list.Count == 0, "AddIfUniqueAndRemoveIfNot failed to find edge");
-
-            Debug.Log("Test complete: NavEdge");
-        }
-
-        // Don't want inner edges (which match another existing edge).
-        static void AddIfUniqueAndRemoveIfNot(HashSet<NavEdge> set, NavEdge edge)
-        {
-            bool had_edge = set.Remove(edge);
-            if (!had_edge)
-            {
-                set.Add(edge);
-            }
         }
 
         static NavEdge TriangleToEdge(NavMeshTriangulation tri, int start, int end)
