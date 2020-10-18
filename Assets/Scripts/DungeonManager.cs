@@ -93,7 +93,7 @@ public class DungeonManager : MonoBehaviour
         foreach (var obj in m_Instances)
         {
             obj.transform.SetParent(parent);
-            var position = obj.transform.position;
+            var position = obj.transform.position + root.transform.position;
             position.y += Random.Range(-m_HeightDelta, m_HeightDelta);
             obj.transform.position = position;
             Undo.RegisterCreatedObjectUndo(obj, "CreateDisconnectedDungeon");
