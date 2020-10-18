@@ -24,7 +24,8 @@ namespace idbrii.navgen
         public Vector3 nav_hit_position;
         public Vector3 phys_hit_point;
 
-        [NaughtyAttributes.Button]
+        //~ [NaughtyAttributes.Button]
+        [ContextMenu("Draw")]
         public void Draw()
         {
             var ground_found = Color.Lerp(Color.green, Color.yellow, 0.75f);
