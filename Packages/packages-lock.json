@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "c5140c7dc38427f93a63d8bd6604f90134943fe7"
     },
+    "com.github.idbrii.unity-vimeditor": {
+      "version": "https://github.com/idbrii/unity-vimeditor.git#dev",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "1ab3b20b13906b2238a72fa8fcae7fb4af499651"
+    },
     "com.unity.collab-proxy": {
       "version": "1.2.16",
       "depth": 0,
