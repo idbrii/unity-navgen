@@ -58,6 +58,14 @@ public enum NavMeshAreaIndex
 }
 ```
 
+
+# Installation
+
+Copy the code to your project or add a dependency to your manifest.json to install as a package:
+
+    "com.github.idbrii.unity-navgen": "https://github.com/idbrii/unity-navgen.git#latest-release",
+
+
 # Alternatives
 
 * [NavMeshLinks_AutoPlacer by eDmitriy](https://forum.unity.com/threads/navmesh-links-generator-for-navmeshcomponents.515143/)
