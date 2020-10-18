@@ -21,7 +21,7 @@ public class DungeonManager : MonoBehaviour
 
     void Awake()
     {
-        CreateDungeon(23431);
+        //~ CreateDungeon(23431);
     }
 
     void CreateDungeon(int seed)
