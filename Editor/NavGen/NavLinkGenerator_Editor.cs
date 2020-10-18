@@ -33,9 +33,11 @@ namespace idbrii.navgen
 
             m_AttachDebugToLinks = EditorGUILayout.Toggle("Attach Debug To Links", m_AttachDebugToLinks);
 
+            EditorGUILayout.HelpBox("Workflow: click these buttons from left to right. See tooltips for more info.", MessageType.None);
+
             using (new GUILayout.HorizontalScope())
             {
-                if (GUILayout.Button("Clear All"))
+                if (GUILayout.Button(new GUIContent("Clear All", "Delete generated Interior Volumes, NavMesh, and NavMeshLinks.")))
                 {
                     NavNonWalkableCollection_Editor.ClearNonWalkableVolumes();
                     NavMeshAssetManager.instance.ClearSurfaces(NavEdUtil.GetAllInActiveScene<NavMeshSurface>());
@@ -44,25 +46,25 @@ namespace idbrii.navgen
                     Debug.Log($"Removed NavMesh and NavMeshLinks from all NavMeshSurfaces.");
                 }
 
-                if (GUILayout.Button("Create Interior Volumes"))
+                if (GUILayout.Button(new GUIContent("Create Interior Volumes", "Create NonWalkable volumes to prevent navmesh generation inside of solid objects.")))
                 {
                     NavNonWalkableCollection_Editor.CreateNonWalkableVolumes();
                 }
 
-                if (GUILayout.Button("Bake NavMesh"))
+                if (GUILayout.Button(new GUIContent("Bake NavMesh", "Build navmesh for all NavMeshSurface.")))
                 {
                     var surfaces = NavEdUtil.GetAllInActiveScene<NavMeshSurface>();
                     NavMeshAssetManager.instance.StartBakingSurfaces(surfaces);
                     Debug.Log($"Baked NavMesh for {surfaces.Length} NavMeshSurfaces.");
                 }
 
-                if (GUILayout.Button("Bake Links"))
+                if (GUILayout.Button(new GUIContent("Bake Links", "Create NavMeshLinks along your navmesh edges.")))
                 {
                     GenerateLinks(gen);
                     Debug.Log($"Baked NavMeshLinks.");
                 }
 
-                if (GUILayout.Button("Select NavMesh"))
+                if (GUILayout.Button(new GUIContent("Select NavMesh", "Selecting the navmesh makes it draw in the Scene view so you can evaluate the quality of the mesh and the links.")))
                 {
                     Selection.objects = NavEdUtil.GetAllInActiveScene<NavMeshSurface>();
                 }
