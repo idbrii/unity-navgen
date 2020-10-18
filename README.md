@@ -59,6 +59,10 @@ public enum NavMeshAreaIndex
 ```
 
 
+# Example
+See the [example branch](https://github.com/idbrii/unity-navgen/tree/example) for a demonstration project.
+
+
 # Installation
 
 Copy the code to your project or add a dependency to your manifest.json to install as a package:
