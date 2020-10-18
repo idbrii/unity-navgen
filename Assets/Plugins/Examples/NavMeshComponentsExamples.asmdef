@@ -1,6 +1,7 @@
 {
     "name": "NavMeshComponentsExamples",
     "references": [
+        "NaughtyAttributes.Core",
         "NavMeshComponents"
     ],
     "optionalUnityReferences": [],

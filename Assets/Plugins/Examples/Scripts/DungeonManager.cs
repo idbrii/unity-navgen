@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using UnityEngine.AI;
 using UnityEngine;
 
 [DefaultExecutionOrder(-200)]
@@ -8,9 +12,16 @@ public class DungeonManager : MonoBehaviour
     public float m_Spacing = 4.0f;
     public GameObject[] m_Tiles = new GameObject[16];
 
+    List<GameObject> m_Instances = new List<GameObject>(16);
+
     void Awake()
     {
-        Random.InitState(23431);
+        CreateDungeon(23431);
+    }
+
+    void CreateDungeon(int seed)
+    {
+        Random.InitState(seed);
         var map = new int[m_Width * m_Height];
         for (int y = 0; y < m_Height; y++)
         {
@@ -43,8 +54,36 @@ public class DungeonManager : MonoBehaviour
             {
                 var pos = new Vector3(x * m_Spacing, 0, y * m_Spacing);
                 if (m_Tiles[map[x + y * m_Width]] != null)
-                    Instantiate(m_Tiles[map[x + y * m_Width]], pos, Quaternion.identity);
+                    m_Instances.Add(Instantiate(m_Tiles[map[x + y * m_Width]], pos, Quaternion.identity));
             }
         }
     }
+
+    [NaughtyAttributes.Button]
+    void CreateDisconnectedDungeon()
+    {
+        foreach (var entry in m_Instances)
+        {
+            GameObject.DestroyImmediate(entry.gameObject);
+        }
+        m_Instances.Clear();
+
+        CreateDungeon(Mathf.RoundToInt(Random.value * 10000000f));
+        var root = GameObject.Find("Dungeon Root") ?? new GameObject("Dungeon Root");
+        var parent = root.transform;
+        foreach (var obj in m_Instances)
+        {
+            obj.transform.SetParent(parent);
+            var position = obj.transform.position;
+            position.y += Random.Range(-5f, 5f);
+            obj.transform.position = position;
+            UnityEditor.Undo.RegisterCreatedObjectUndo(obj, "CreateDisconnectedDungeon");
+        }
+        foreach (var entry in parent.GetComponentsInChildren<NavMeshLink>())
+        {
+            Component.DestroyImmediate(entry);
+        }
+        UnityEditor.Undo.RegisterCreatedObjectUndo(parent.gameObject, "CreateDisconnectedDungeon");
+    }
+
 }
