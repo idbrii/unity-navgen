@@ -16,7 +16,7 @@ namespace idbrii.navgen
         public float m_MaxVerticalFall = 5f;
         public int m_Steps = 10;
         public LayerMask m_PhysicsMask = -1;
-        public int m_NavMask = NavMesh.AllAreas;
+        public NavMeshAreas m_NavMask = NavMeshAreas.All;
         public float m_AgentHeight = 1.5f;
         public float m_AgentRadius = 0.5f;
     }

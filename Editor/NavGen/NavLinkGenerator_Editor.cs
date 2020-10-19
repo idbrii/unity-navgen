@@ -318,7 +318,7 @@ namespace idbrii.navgen
                 if (hit)
                 {
                     var max_distance = gen.m_MaxVerticalFall - phys_hit.distance;
-                    hit = NavMesh.SamplePosition(phys_hit.point, out nav_hit, max_distance, gen.m_NavMask);
+                    hit = NavMesh.SamplePosition(phys_hit.point, out nav_hit, max_distance, (int)gen.m_NavMask);
                     // Only place downward links (to avoid double placement).
                     hit = hit && (nav_hit.position.y <= mid.y);
                     bool is_original_edge = edge.IsPointOnEdge(nav_hit.position);
