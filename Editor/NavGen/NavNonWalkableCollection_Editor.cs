@@ -63,12 +63,22 @@ namespace idbrii.navgen
 
         public static void CreateNonWalkableVolumes()
         {
-            CreateNonWalkableVolumes(Get());
+            var collection = Get();
+            if (collection == null)
+            {
+                return;
+            }
+            CreateNonWalkableVolumes(collection);
         }
 
         public static void ClearNonWalkableVolumes()
         {
-            ClearVolumes(Get());
+            var collection = Get();
+            if (collection == null)
+            {
+                return;
+            }
+            ClearVolumes(collection);
         }
 
         static void ClearVolumes(NavNonWalkableCollection collection)
