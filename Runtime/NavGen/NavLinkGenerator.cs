@@ -19,5 +19,8 @@ namespace idbrii.navgen
         public NavMeshAreas m_NavMask = NavMeshAreas.All;
         public float m_AgentHeight = 1.5f;
         public float m_AgentRadius = 0.5f;
+        [Tooltip("Maximum degrees away from the normal pointing horizontally out of a navmesh edge. Larger values allow more awkward links, but may result in redundant or inappropriate links.")]
+        [Range(0f, 60f)]
+        public float m_MaxAngleFromEdgeNormal = 45f;
     }
 }

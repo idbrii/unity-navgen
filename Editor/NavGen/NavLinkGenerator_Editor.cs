@@ -319,8 +319,11 @@ namespace idbrii.navgen
                 {
                     var max_distance = gen.m_MaxVerticalFall - phys_hit.distance;
                     hit = NavMesh.SamplePosition(phys_hit.point, out nav_hit, max_distance, (int)gen.m_NavMask);
-                    // Only place downward links (to avoid double placement).
+                    // Only place downward links (to avoid back and forth double placement).
                     hit = hit && (nav_hit.position.y <= mid.y);
+                    // Only accept 90 wedge in front of normal (prevent links
+                    // that other edges are already handling).
+                    hit = hit && Vector3.Dot(nav_hit.position - mid, edge.m_Normal) > Mathf.Cos(gen.m_MaxAngleFromEdgeNormal);
                     bool is_original_edge = edge.IsPointOnEdge(nav_hit.position);
                     hit &= !is_original_edge; // don't count self
                     //~ Debug.DrawLine(phys_hit.point, nav_hit.position, hit ? navmesh_found : navmesh_missing, k_DrawDuration);
