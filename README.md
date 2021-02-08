@@ -18,7 +18,7 @@ gaps in your navmesh. It also serves as the central hub for navgen.
 ![NavLinkGenerator](https://user-images.githubusercontent.com/43559/96361844-081f8680-10de-11eb-86ea-23157153d05e.png)
 
 NavLinkGenerator is a ScriptableObject -- so you need to create one to start
-using it (Assets > Create > AI > NavLinkGenerator). The asset contains
+using it (Assets > Create > Navigation > NavLinkGenerator). The asset contains
 settings and buttons for generating links.
 
 
@@ -65,7 +65,8 @@ See the [example branch](https://github.com/idbrii/unity-navgen/tree/example) fo
 
 # Installation
 
-Copy the code to your project or add a dependency to your manifest.json to install as a package:
+1. Install Unity [NavMeshComponents](https://github.com/Unity-Technologies/NavMeshComponents.git) from github.
+2. Copy the code to your project or add a dependency to your manifest.json to install as a package:
 
     "com.github.idbrii.unity-navgen": "https://github.com/idbrii/unity-navgen.git#latest-release",
 
