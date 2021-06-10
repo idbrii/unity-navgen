@@ -361,7 +361,7 @@ namespace idbrii.navgen
                         link.endPoint = link.transform.InverseTransformPoint(nav_hit.position) + (Vector3.forward * inset);
                         link.width = edge.m_Length;
                         link.UpdateLink();
-                        Debug.Log("Created NavLink");
+                        Debug.Log("Created NavLink", link);
                         Undo.RegisterCompleteObjectUndo(link.gameObject, "Create NavMeshLink");
 
                         if (m_AttachDebugToLinks)
