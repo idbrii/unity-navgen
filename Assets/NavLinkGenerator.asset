@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10d4c80d83fe1343bf16cdd5c250980, type: 3}
   m_Name: NavLinkGenerator
   m_EditorClassIdentifier: 
+  OffMeshLinkPrefab: {fileID: 4741501325530828461, guid: a0acd59380ada8f47b44348b1ccac575,
+    type: 3}
   m_JumpLinkPrefab: {fileID: 3186803042184351881, guid: 42431e18e6feeb149a3a2e866b580a5f,
     type: 3}
   m_FallLinkPrefab: {fileID: 3186803042184351881, guid: 9c1b3b7f3c099054d9a1b49bd62d3c8b,

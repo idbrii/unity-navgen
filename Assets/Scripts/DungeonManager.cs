@@ -64,13 +64,13 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
-    [NaughtyAttributes.InfoBox("Click the Create button to make a dungeon to your liking.\n"
-    +"Click the Select button to open the NavLinkGenerator to generate the navmesh and navlinks and select the navmesh to see the result (in Scene view).\n"
-    +"Then click Play and click around to see how the agent handles the generated links.", NaughtyAttributes.EInfoBoxType.Normal)]
+    //[NaughtyAttributes.InfoBox("Click the Create button to make a dungeon to your liking.\n"
+    //+"Click the Select button to open the NavLinkGenerator to generate the navmesh and navlinks and select the navmesh to see the result (in Scene view).\n"
+    //+"Then click Play and click around to see how the agent handles the generated links.", NaughtyAttributes.EInfoBoxType.Normal)]
     public float m_HeightDelta = 1.5f;
 
 #if UNITY_EDITOR
-    [NaughtyAttributes.Button]
+    //[NaughtyAttributes.Button]
     void CreateDisconnectedDungeon()
     {
         foreach (var entry in m_Instances)
@@ -109,7 +109,7 @@ public class DungeonManager : MonoBehaviour
         Undo.RegisterCreatedObjectUndo(parent.gameObject, "CreateDisconnectedDungeon");
     }
 
-    [NaughtyAttributes.Button]
+    //[NaughtyAttributes.Button]
     void SelectNavLinkGenerator()
     {
         var gen = AssetDatabase.FindAssets("t:NavLinkGenerator")
