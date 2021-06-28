@@ -37,7 +37,9 @@ This example project does not contain unity-navgen. It imports it as a package i
 # Runtime Uesage
 Rebuild Navmesh and MeshLink:
 `NavLinkGenerator_Runtime.RebuildAll();`
+
 Rebuild Navmesh:
 `NavLinkGenerator_Runtime.main.navMeshSurface.BuildNavMesh();`
+
 Rebuild MeshLinks:
 `NavLinkGenerator_Runtime.main.RebuildLinks();`
