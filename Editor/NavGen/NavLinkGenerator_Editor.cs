@@ -342,7 +342,8 @@ namespace idbrii.navgen
                             // Agent can't jump through here.
                             continue;
                         }
-                        var height_delta = nav_hit.position.y - mid.y;
+                        var height_delta = mid.y - nav_hit.position.y;
+                        Debug.Assert(height_delta >= 0, "Not handling negative delta.");
                         var prefab = gen.m_JumpLinkPrefab;
                         if (height_delta > gen.m_MaxVerticalJump)
                         {
