@@ -8,6 +8,8 @@ using UnityEditor.SceneManagement;
 using UnityEditor;
 using UnityEngine.AI;
 using UnityEngine;
+using Unity.AI.Navigation;
+using Unity.AI.Navigation.Editor;
 
 using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;

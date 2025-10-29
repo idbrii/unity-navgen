@@ -1,14 +1,16 @@
 {
     "name": "idbrii.NavGen",
+    "rootNamespace": "",
     "references": [
-        "NavMeshComponents"
+        "Unity.AI.Navigation"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
