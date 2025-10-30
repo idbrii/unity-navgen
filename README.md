@@ -1,7 +1,9 @@
 # unity-navgen
-Tools for working with [Unity's
-NavMeshComponents](https://github.com/Unity-Technologies/NavMeshComponents) and
+Tools for working with [Unity.AI.Navigation](https://docs.unity3d.com/Packages/com.unity.ai.navigation@2.0/manual/index.html) and
 generating navmesh: link generation, mesh cleanup, etc
+
+_See the [unity-5 branch](https://github.com/idbrii/unity-navgen/tree/unity-5) for [Unity's
+NavMeshComponents](https://github.com/Unity-Technologies/NavMeshComponents) (Unity 5 and earlier)._
 
 
 Default NavMesh Generation                                                                                                                         | Using NavLinkGenerator's Bake Links and Interior Volumes
@@ -65,7 +67,7 @@ See the [example branch](https://github.com/idbrii/unity-navgen/tree/example) fo
 
 # Installation
 
-1. Install Unity [NavMeshComponents](https://github.com/Unity-Technologies/NavMeshComponents.git) from github.
+1. Add [Unity.AI.Navigation](https://docs.unity3d.com/Packages/com.unity.ai.navigation@2.0/manual/index.html) to your project with the Unity package manager.
 2. Copy the code to your project or add a dependency to your manifest.json to install as a package:
 
     "com.github.idbrii.unity-navgen": "https://github.com/idbrii/unity-navgen.git#latest-release",
